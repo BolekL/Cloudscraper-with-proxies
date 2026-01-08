@@ -1,59 +1,59 @@
-# Using CloudScraper with Proxies
+# CloudScraper를 プロキシ와 함께 사용하기
 
-[![Promo](https://github.com/luminati-io/LinkedIn-Scraper/raw/main/Proxies%20and%20scrapers%20GitHub%20bonus%20banner.png)](https://brightdata.com/) 
+[![Promo](https://github.com/luminati-io/LinkedIn-Scraper/raw/main/Proxies%20and%20scrapers%20GitHub%20bonus%20banner.png)](https://brightdata.co.kr/) 
 
-This guide covers setting up a CloudScraper proxy integration, rotating IPs, and using authenticated proxies for seamless scraping.
+이 가이드는 CloudScraper의 プロキシ 통합을 설정하는 방법, IP를 ローテーティングする 방법, 그리고 원활한 スクレイピング을 위해 認証된 プロキシ를 사용하는 방법을 다룹니다.
 
-- [What Is CloudScraper?](#about-cloudscraper)
-- [Why Use Proxies with CloudScraper?](#why-use-proxies-with-cloudscraper)
-- [Setting Up a Proxy With CloudScraper](#setting-up-a-proxy-with-cloudscraper)
-- [Implementing Proxy Rotation](#implementing-proxy-rotation)
-- [Using Authenticated Proxies in CloudScraper](#using-authenticated-proxies-in-cloudscraper)
-- [Integrating Premium Proxies in CloudScraper](#integrating-premium-proxies-in-cloudscraper)
-- [Conclusion](#conclusion)
+- [CloudScraper란 무엇입니까?](#about-cloudscraper)
+- [CloudScraper에서 왜 プロキシ를 사용합니까?](#why-use-proxies-with-cloudscraper)
+- [CloudScraper로 プロキシ 설정하기](#setting-up-a-proxy-with-cloudscraper)
+- [プロキシ ローテーション 구현하기](#implementing-proxy-rotation)
+- [CloudScraper에서 認証된 プロキシ 사용하기](#using-authenticated-proxies-in-cloudscraper)
+- [CloudScraper에 프리미엄 プロキシ 통합하기](#integrating-premium-proxies-in-cloudscraper)
+- [결론](#conclusion)
 
 ## About CloudScraper
 
-[CloudScraper](https://github.com/VeNoMouS/cloudscraper) is a Python module designed to bypass Cloudflare's anti-bot page (commonly known as "I'm Under Attack Mode" or IUAM). Under the hood, it is implemented using Requests, one of the most popular Python HTTP clients.
+[CloudScraper](https://github.com/VeNoMouS/cloudscraper)는 Cloudflare의 アンチボット 페이지(일반적으로 "I'm Under Attack Mode" 또는 IUAM으로 알려짐)를 우회하도록 설계된 Python 모듈입니다. 내부적으로는 가장 인기 있는 Python HTTP 클라이언트 중 하나인 Requests를 사용하여 구현되어 있습니다.
 
 ## Why Use Proxies with CloudScraper?
 
-Cloudflare may block your IP if you make too many requests or trigger more sophisticated defenses that are difficult to bypass. The combination of proxies and CloudScraper for scraping websites hosted by Cloudflare offers two key benefits:
+Cloudflare는 リクエスト를 너무 많이 보내거나 우회하기 어려운 보다 정교한 방어를 트리거하면 사용자의 IPアドレス를 차단할 수 있습니다. Cloudflare에서 호스팅되는 웹사이트를 スクレイピング할 때 プロキシ와 CloudScraper를 함께 사용하면 다음 두 가지 핵심 이점이 있습니다:
 
-- **Enhanced security and anonymity**: By routing requests through a proxy, your true identity remains hidden, reducing the risk of detection.
-- **Avoiding blocks and interruptions**: Proxies allow you to rotate IP addresses dynamically, which helps you bypass blocks and rate limiters.
+- **보안 및 익명성 향상**: リクエスト를 プロキシ를 통해 라우팅하면 실제 신원이 숨겨져 탐지 위험이 줄어듭니다.
+- **차단 및 중단 방지**: プロキシ를 사용하면 IPアドレス를 동적으로 ローテーティング할 수 있어 차단 및 レート制限を 우회하는 데 도움이 됩니다.
 
 ## Setting Up a Proxy With CloudScraper
 
 ### Step #1: Install CloudScraper
 
-Install the `cloudscraper` pip package:
+`cloudscraper` pip 패키지를 설치합니다:
 
 ```bash
 pip install -U cloudscraper
 ```
 
-The `-U` option ensures that you are getting the latest version of the package with the latest workarounds for Cloudflare's anti-bot engine.
+`-U` 옵션은 Cloudflare의 アンチボット 엔진에 대한 최신 우회책이 포함된 패키지의 최신 버전을 받도록 보장합니다.
 
 ### Step #2: Initialize CloudScraper
 
-Import CloudScraper:
+CloudScraper를 import합니다:
 
 ```python
 import cloudscraper
 ```
 
-Create a CloudScraper instance using the `create_scraper()` method:
+`create_scraper()` 메서드를 사용하여 CloudScraper 인스턴스를 생성합니다:
 
 ```python
 scraper = cloudscraper.create_scraper()
 ```
 
-The `scraper` object works similarly to the `Session` object from the `requests` library. In particular, it enables you to make HTTP requests while bypassing Cloudflare's anti-bot measures.
+`scraper` 객체는 `requests` 라이브러리의 `Session` 객체와 유사하게 동작합니다. 특히 Cloudflare의 アンチボット 조치를 우회하면서 HTTP リクエスト를 보낼 수 있게 해줍니다.
 
 ### Step #3: Integrate a Proxy
 
-Define a `proxies` dictionary and pass it to the `get()` method as below:
+아래와 같이 `proxies` 딕셔너리를 정의하고 `get()` 메서드에 전달합니다:
 
 ```python
 proxies = {
@@ -65,13 +65,13 @@ proxies = {
 response = scraper.get("<YOUR_TARGET_URL>", proxies=proxies)
 ```
 
-The `proxies` parameter in the `get()` method is passed down to Requests. This allows the HTTP client to route your request through the specified HTTP or HTTPS proxy server, depending on the protocol of your target URL.
+`get()` 메서드의 `proxies` パラメータ는 Requests로 전달됩니다. 이를 통해 HTTP 클라이언트는 대상 URL의 프로토콜에 따라 지정된 HTTP 또는 HTTPS プロキシ 서버를 통해 リクエスト를 라우팅할 수 있습니다.
 
 ### Step #4: Test the CloudScraper Proxy Integration Setup
 
-For demonstration purposes, let's target the `/ip` endpoint of the HTTPBin project. This endpoint returns the caller's IP address. If everything works as expected, the response should display the IP address of the proxy server.
+데모를 위해 HTTPBin 프로젝트의 `/ip` エンドポイント를 대상으로 하겠습니다. 이 エンドポイント는 호출자의 IPアドレス를 반환합니다. 모든 것이 예상대로 동작한다면, レスポンス에는 プロキシ 서버의 IPアドレス가 표시되어야 합니다.
 
-Assuming that the URL for the proxy server is `http://202.159.35.121:443`, this will be the script code:
+프로キ시 서버의 URL이 `http://202.159.35.121:443`라고 가정하면, 스크립트 코드는 다음과 같습니다:
 
 ```python
 import cloudscraper
@@ -92,7 +92,7 @@ response = scraper.get("https://httpbin.org/ip", proxies=proxies)
 print(response.text)
 ```
 
-You should see a response like this:
+다음과 같은 レスポンス가 표시되어야 합니다:
 
 ```json
 {
@@ -100,14 +100,14 @@ You should see a response like this:
 }
 ```
 
-The IP in the response matches the IP of the proxy server, as expected.
+レスポンス의 IP는 예상대로 プロキシ 서버의 IP와 일치합니다.
 
 > **Note**:\
-> Free proxy servers are often short-lived. It's best to obtain a new IP address for a proxy when testing the script.
+> 무료 プロキシ 서버는 수명이 짧은 경우가 많습니다. 스크립트를 테스트할 때는 새 IPアドレス의 プロキシ를 확보하는 것이 가장 좋습니다.
 
 ## Implementing Proxy Rotation
 
-Retrieve a list of proxies from a reliable provider and store them in an array:
+신뢰할 수 있는 제공업체에서 プロキ시 목록을 가져와 배열에 저장합니다:
 
 ```python
 proxy_list = [
@@ -117,7 +117,7 @@ proxy_list = [
 ]
 ```
 
-Next, use the `random.choice()` method to randomly select a proxy from the list:
+다음으로 `random.choice()` 메서드를 사용하여 목록에서 プロキ시를 무작위로 선택합니다:
 
 ```python
 import random
@@ -125,13 +125,13 @@ import random
 random_proxy = random.choice(proxy_list)
 ```
 
-Set the randomly selected proxy in the `get()` request:
+무작위로 선택된 プロキ시를 `get()` リクエスト에 설정합니다:
 
 ```python
 response = scraper.get("<YOUR_TARGET_URL>", proxies=random_proxy)
 ```
 
-If everything is set up correctly, the request will use a different proxy from the list at each run. Here is the complete code:
+모든 설정이 올바르면 실행할 때마다 リクエ스트는 목록의 다른 プロキ시를 사용하게 됩니다. 전체 코드는 다음과 같습니다:
 
 ```python
 import cloudscraper
@@ -157,11 +157,11 @@ response = scraper.get("<YOUR_TARGET_URL>", proxies=random_proxy)
 
 ## Using Authenticated Proxies in CloudScraper
 
-To authenticate a proxy in CloudScraper, include the required credentials directly in the proxy URL. The format for username and password authentication is as follows:
+CloudScraper에서 プロキ시를 認証하려면, 필요한 자격 증명을 プロ키시 URL에 직접 포함합니다. 사용자명 및 비밀번호 認証 형식은 다음과 같습니다:
 
 `<PROXY_PROTOCOL>://<YOUR_USERNAME>:<YOUR_PASSWORD>@<PROXY_IP_ADDRESS>:<PROXY_PORT>`
     
-With that format, the CloudScraper proxy configuration would look like this:
+이 형식을 사용하면 CloudScraper プロキ시 구성은 다음과 같습니다:
 
 ```python
 import cloudscraper
@@ -181,34 +181,34 @@ response = scraper.get("<YOUR_TARGET_URL>", proxies=proxies)
 
 ## Integrating Premium Proxies in CloudScraper
 
-For reliable results in production scraping environments, use proxies from top-tier providers like [Bright Data](https://brightdata.com/). To integrate Bright Data’s proxies in CloudScraper:
+프로덕션 スクレイピング 환경에서 신뢰할 수 있는 결과를 얻으려면 [Bright Data](https://brightdata.co.kr/)와 같은 최상위 제공업체의 プロ키시를 사용하십시오. CloudScraper에 Bright Data의 プロ키시를 통합하려면 다음을 수행합니다:
 
-1. Create an account or log in.
+1. 계정을 생성하거나 로그인합니다.
 
-2. Reach the dashboard and click on the “Residential” zone in the table:
+2. 대시보드로 이동한 다음 표에서 “Residential” 존을 클릭합니다:
 
 ![Bright Data's proxies and scraping infrastructure control panel](https://github.com/luminati-io/Cloudscraper-with-proxies/blob/main/image-7.png)
 
-3. Activate the proxies by clicking the toggle:
+3. 토글을 클릭하여 プロ키시를 활성화합니다:
 
 ![Turning on the residential zone](https://github.com/luminati-io/Cloudscraper-with-proxies/blob/main/image-8.png)
 
-This is what you should now be seeing:
+이제 다음과 같이 표시되어야 합니다:
 
 ![The residential zone turned on](https://github.com/luminati-io/Cloudscraper-with-proxies/blob/main/image-9.png)
 > **Note**:\
-> Bright Data’s residential proxies rotate automatically.
+> Bright Data의 レジデンシャルプロキシ는 자동으로 ローテーティング됩니다.
 
-4. In the “Access Details” section, copy the proxy host, username, and password:
+4. “Access Details” 섹션에서 プロ키시 호스트, 사용자명, 비밀번호를 복사합니다:
 
 ![The access details for your residential proxies zone](https://github.com/luminati-io/Cloudscraper-with-proxies/blob/main/image-10.png)
-Your Bright Data proxy URL will look like this:
+Bright Data プロ키시 URL은 다음과 같이 보입니다:
 
 ```
 http://<PROXY_USERNAME>:<PROXY_PASSWORD>@brd.superproxy.io:33335
 ```
 
-5. Integrate the proxy into Cloudscraper as follows:
+5. 아래와 같이 プロ키시를 Cloudscraper에 통합합니다:
 
 ```python
 import cloudscraper
@@ -225,7 +225,7 @@ response = scraper.get("https://httpbin.org/ip", proxies=proxies)
 print(response.text)
 ```
 
-The CloudScraper proxy integration is done. Now, we need to test and verify. To ensure the proxy is working correctly, you can test it against a service like [https://httpbin.org/ip](https://httpbin.org/ip), which returns the IP address of the caller. If the setup is correct, the response should display the IP address of the proxy server instead of your local IP.
+CloudScraper プロ키시 통합이 완료되었습니다. 이제 테스트 및 검증이 필요합니다. プロ키시가 올바르게 작동하는지 확인하려면 호출자의 IPアドレス를 반환하는 [https://httpbin.org/ip](https://httpbin.org/ip) 같은 서비스로 테스트할 수 있습니다. 설정이 올바르면 レスポンス에는 로컬 IP가 아니라 プロ키시 서버의 IPアドレス가 표시되어야 합니다.
 
 
 ## Putting Everything Together 
@@ -304,11 +304,11 @@ Response 3: {
 
 ## Conclusion
 
-Bright Data controls the best proxy servers in the world, serving Fortune 500 companies and over 20,000 customers. Its worldwide proxy network involves:
+Bright Data는 Fortune 500 기업과 20,000명 이상의 고객에게 서비스를 제공하며, 세계 최고의 プロ키시 서버를 운영합니다. 전 세계 プロ키시 네트워크에는 다음이 포함됩니다:
 
-*   [Datacenter proxies](https://brightdata.com/proxy-types/datacenter-proxies) – Over 770,000 datacenter IPs.
-*   [Residential proxies](https://brightdata.com/proxy-types/residential-proxies) – Over 72M residential IPs in more than 195 countries.
-*   [ISP proxies](https://brightdata.com/proxy-types/isp-proxies) – Over 700,000 ISP IPs.
-*   [Mobile proxies](https://brightdata.com/proxy-types/mobile-proxies) – Over 7M mobile IPs.
+*   [Datacenter proxies](https://brightdata.co.kr/proxy-types/datacenter-proxies) – 770,000개 이상의 データセンタープロキシ IP.
+*   [Residential proxies](https://brightdata.co.kr/proxy-types/residential-proxies) – 195개 이상의 국가에서 72M 이상의 レジデンシャルプロキシ IP.
+*   [ISP proxies](https://brightdata.co.kr/proxy-types/isp-proxies) – 700,000개 이상의 ISPプロキシ IP.
+*   [Mobile proxies](https://brightdata.co.kr/proxy-types/mobile-proxies) – 7M 이상의 モバイルプロキシ IP.
 
-[Create a free Bright Data account](https://brightdata.com) today to try our proxy servers.
+지금 [무료 Bright Data 계정을 생성](https://brightdata.co.kr)하여 プロ키시 서버를 사용해 보십시오.
