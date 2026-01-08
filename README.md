@@ -1,6 +1,6 @@
 # CloudScraper를 プロキシ와 함께 사용하기
 
-[![Promo](https://github.com/luminati-io/LinkedIn-Scraper/raw/main/Proxies%20and%20scrapers%20GitHub%20bonus%20banner.png)](https://brightdata.co.kr/) 
+[![Promo](https://github.com/bright-kr/LinkedIn-Scraper/raw/main/Proxies%20and%20scrapers%20GitHub%20bonus%20banner.png)](https://brightdata.co.kr/) 
 
 이 가이드는 CloudScraper의 プロキシ 통합을 설정하는 방법, IP를 ローテーティングする 방법, 그리고 원활한 スクレイピング을 위해 認証된 プロキシ를 사용하는 방법을 다룹니다.
 
@@ -187,21 +187,21 @@ response = scraper.get("<YOUR_TARGET_URL>", proxies=proxies)
 
 2. 대시보드로 이동한 다음 표에서 “Residential” 존을 클릭합니다:
 
-![Bright Data's proxies and scraping infrastructure control panel](https://github.com/luminati-io/Cloudscraper-with-proxies/blob/main/image-7.png)
+![Bright Data's proxies and scraping infrastructure control panel](https://github.com/bright-kr/Cloudscraper-with-proxies/blob/main/image-7.png)
 
 3. 토글을 클릭하여 プロ키시를 활성화합니다:
 
-![Turning on the residential zone](https://github.com/luminati-io/Cloudscraper-with-proxies/blob/main/image-8.png)
+![Turning on the residential zone](https://github.com/bright-kr/Cloudscraper-with-proxies/blob/main/image-8.png)
 
 이제 다음과 같이 표시되어야 합니다:
 
-![The residential zone turned on](https://github.com/luminati-io/Cloudscraper-with-proxies/blob/main/image-9.png)
+![The residential zone turned on](https://github.com/bright-kr/Cloudscraper-with-proxies/blob/main/image-9.png)
 > **Note**:\
 > Bright Data의 レジデンシャルプロキシ는 자동으로 ローテーティング됩니다.
 
 4. “Access Details” 섹션에서 プロ키시 호스트, 사용자명, 비밀번호를 복사합니다:
 
-![The access details for your residential proxies zone](https://github.com/luminati-io/Cloudscraper-with-proxies/blob/main/image-10.png)
+![The access details for your residential proxies zone](https://github.com/bright-kr/Cloudscraper-with-proxies/blob/main/image-10.png)
 Bright Data プロ키시 URL은 다음과 같이 보입니다:
 
 ```
